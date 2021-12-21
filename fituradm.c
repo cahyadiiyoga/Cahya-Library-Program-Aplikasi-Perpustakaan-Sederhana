@@ -76,4 +76,81 @@ void login()
     fclose(log);
     getch();
     system("cls");
+    menuadm();
 }
+
+//=============================================================================  Menu Admin  =====================================================================================
+void menuadm()
+{
+	system("cls");
+	int pil = 0;
+	printf("\n\n\n\n\n\n\n\n\t\t\t\t==============================================\n");
+	printf("\t\t\t\t\t\t[Menu Admin]\n");
+	printf("\t\t\t\t==============================================\n");
+	printf("\t\t\t\t 1. Pinjam Buku\n");
+	printf("\t\t\t\t 2. Kembalikan Buku \n");
+	printf("\t\t\t\t 3. Input Buku \n");
+	printf("\t\t\t\t 4. Hapus Data Buku \n");
+	printf("\t\t\t\t 5. Kembali ke menu sebelumnya \n");
+	printf("\t\t\t\t 6. Selesai \n");
+	printf("\n\t\t\t\t Pilihan	: ");
+	scanf("%d", &pil); fflush(stdin);
+	switch (pil)
+	{
+		case 1 : { menupinjam();
+			break;
+		}
+//		case 2 : { kembalikanbuku();
+//		break;
+//		}
+//		case 3 : { Input_Buku();
+//		break;
+//		}
+//		case 4 : { menuhapus();
+//			break;
+//		}
+		case 5 : { main();
+			break;
+		}
+		case 6 :{ exit(1);
+			break;
+		}
+		default : { menuadm();
+		}
+	}
+}
+
+//===================================================================  Menu Pinjam dan Kembalikan Buku  ==========================================================================
+void menupinjam()
+{
+	system("cls");
+	int pil = 0;
+//	Tampil_File();
+//	sortKode(buku);
+	printf("\n========================================================================================================================\n");
+	printf("|                                                 [Menu Sewa Buku]                                                 |\n");
+	printf("========================================================================================================================\n");
+	printf("\t * Maksimal waktu peminjaman adalah 1 minggu, jika melebihi batas waktu akan terkena denda per hari\n");
+	printf("\t ** Denda : Rp 1000/hari\n\n\n");
+	printf("\t 1. Pinjam\n");
+	printf("\t 2. Kembali ke menu sebelumnya \n");
+	printf("\n\t Pilihan	: ");
+	scanf("%d", &pil); fflush(stdin);
+	switch (pil)
+		{
+//			case 1 : { 	pinjam();
+//		}
+				break;
+			case 2 : { menuadm();
+			}
+			default :{
+				printf("\n\t\t\t\t\t Pilihan tidak ditemukan!");
+				getch();
+				system("cls");
+				menupinjam();
+				break;
+			}
+		}
+}
+
+
