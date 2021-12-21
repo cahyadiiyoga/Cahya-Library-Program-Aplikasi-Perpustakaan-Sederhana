@@ -4,6 +4,7 @@
 #include <string.h>
 #include <conio.h>
 #include "fituradm.h"
+#include "utama.h"
 
 //Membersihkan Menu Sebelumnya
 #define WINDOWS 1
@@ -57,21 +58,22 @@ void login()
 	printf("\t\t\t\t\t Masukkan password : ");
     scanf("%s", &password);
     
-    while(fread(&l,sizeof(l),1,log))
+   while(fread(&l,sizeof(l),1,log))
     {
         if(strcmp(username,l.username)==0 && strcmp(password,l.password)==0)
         {
             printf("\n\t\t\t\t\t Login sukses!");
+            getch();
+            menuadm();
         }
         else
         {
-            printf("\n\t\t\t\t\t Masukkan username dan password yang benar.");
+            printf("\n\t\t\t\t\t Masukkan username dan password yang benar!");
+            getch();
+            console_clear_screen();
         }
     }
     fclose(log);
-    getch();
-    console_clear_screen();
-    menuadm();
 }
 
 //=============================================================================  Menu Admin  =====================================================================================
@@ -98,19 +100,19 @@ void menuadm()
 //		case 2 : { kembalikanbuku();
 //		break;
 //		}
-//		case 3 : { Input_Buku();
-//		break;
-//		}
+		case 3 : { Input_Buku();
+		break;
+		}
 		case 4 : { menuhapus();
 			break;
 		}
 		case 5 : { main();
 			break;
 		}
-		case 6 :{ exit(1);
+		case 6 : { exit(1);
 			break;
 		}
-		default : { menuadm();
+		default :{ menuadm();
 		}
 	}
 }
@@ -120,7 +122,7 @@ void menupinjam()
 {
 	console_clear_screen();
 	int pil = 0;
-//	Tampil_File();
+	Tampil_File();
 //	sortKode(buku);
 	printf("\n========================================================================================================================\n");
 	printf("|                                                 [Menu Sewa Buku]                                                 |\n");
@@ -133,8 +135,8 @@ void menupinjam()
 	scanf("%d", &pil); fflush(stdin);
 	switch (pil)
 	{
-//		case 1 : { 	pinjam();
-//	}
+		case 1 : { pinjam();
+	}
 			break;
 		case 2 : { menuadm();
 		}
@@ -149,9 +151,11 @@ void menupinjam()
 }
 
 //===================================================================  Menu dan fitur hapus buku  ================================================================================
-void menuhapus(){
+void menuhapus()
+{
+	console_clear_screen();
 	int pil = 0;
-//	Tampil_File();
+	Tampil_File();
 	printf("\n========================================================================================================================\n");
 	printf("|                                                 [Menu Hapus]                                  	               |\n");
 	printf("========================================================================================================================\n");
@@ -162,7 +166,7 @@ void menuhapus(){
 	scanf("%d", &pil); fflush(stdin);
 	switch (pil)
 		{
-			case 1 : { 	hapus1();
+			case 1 : { hapus1();
 		}
 				break;
 			case 2 : { hapus2();
@@ -205,3 +209,68 @@ void hapus2(){
 	}
 	menuhapus();
 }
+
+//============================================================================  Pinjam Buku  =====================================================================================
+void pinjam(){
+	
+	struct tm *Sys_T;
+	int pil = 0;
+	int kodebuku,cek_kode;
+	char a;
+	Tampil_File();
+	printf("\n\n========================================================================================================================\n");
+	printf("|                                                 [Pinjam Buku]                                                 |\n");
+	printf("========================================================================================================================\n");
+	if ((dtpinjam=fopen("datapinjam.dat", "ab")) == NULL ){
+		printf("File tidak dapat dibuat!\r\n");
+		main();
+	}
+	
+	do {
+		printf("\n\t Masukkan nomor : ");
+		if (scanf("%d", &bukupj.nomor) != 1){
+			fflush(stdin);
+			printf("\n\t Input Salah! Mohon masukkan angka.");
+			getch();
+			pinjam();
+		}
+		printf("\n\t Masukkan nama peminjam [Maksimal 10 Huruf] : ");fflush(stdin);
+		scanf("\t%10s",bukupj.nama);fflush(stdin);
+		printf("\n\t Masukkan kode buku yang akan dipinjam : ");fflush(stdin);
+		scanf("\t%d", &kodebuku);
+//		cek_kode = checkKode(buku, kodebuku);
+		if(cek_kode == 0){
+			printf("\nKode Buku tidak ditemukan");
+			pinjam();
+		}else{
+			bukupj.kode = kodebuku;
+			dtbuku = fopen("daftarbuku.dat","rb");
+			while(fread(&buku, sizeof(buku),1, dtbuku)){
+				if(kodebuku == buku.kode){
+					strcpy(bukupj.judul,buku.judul);
+				}
+			}
+			fclose(dtbuku);
+		}
+		
+		printf("\n\t Buku yang akan dipinjam : %s",bukupj.judul);
+		printf("\n\n\t Tanggal Peminjaman : \n");fflush(stdin);
+		Tanggal();
+		time_t Tval;
+    	Tval = time(NULL);
+		Sys_T = localtime(&Tval);
+		bukupj.tgl_pinjam.tgl = Sys_T->tm_mday;
+		bukupj.tgl_pinjam.bln = Sys_T->tm_mon+1;
+		bukupj.tgl_pinjam.thn = 1900+Sys_T->tm_year;
+		/* Rekam sebuah data bertipe record menggunakan fungsi fwrite */
+		fwrite(&bukupj, sizeof(bukupj), 1, dtpinjam);
+		printf("\r\n\t Pinjam buku lagi? (Y/T)?"); fflush(stdin);
+		jawab = toupper(getche());		/* Baca jawaban dari keyboard */
+	}
+	while (jawab == 'Y');
+	fclose(dtpinjam);		/* Tutup file */
+	
+	printf("\r\nData peminjaman tersimpan.\r\n");
+	menupinjam();
+}
+
