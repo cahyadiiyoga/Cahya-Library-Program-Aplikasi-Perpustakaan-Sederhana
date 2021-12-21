@@ -51,7 +51,8 @@ void kembalikanbuku1();
 
 // Menu Daftar Buku
 void menudaftar();
-	//Sorting buku
+
+// Sorting buku
 void menusort();
 
 void statuspjm();

@@ -48,7 +48,9 @@ void Input_Buku(){
 	printf("\r\nLihat isi file (Y/T)?"); fflush(stdin);
 	jawab = toupper(getche());			/* Baca jawaban dari keyboard */
 	if (jawab == 'Y');
-	{	Tampil_File();
+	{	
+		Tampil_File();
+		getch();
 	}
 	
 	menuadm();
@@ -89,3 +91,191 @@ void Tanggal(){
     printf("\n\t Tahun		= %d", 1900+Sys_T->tm_year); /* Ditambah 1900, karena tahun dimulai dari 1900 */
 }
 
+//=================================================================  Prosedur menampilkan status peminjaman  ===================================================================
+void Tampil_Pinjam()
+{
+	console_clear_screen();
+	printf("\n========================================================================================================================\n");
+	printf("|                                             [Status Peminjaman Buku]                                               |\n");
+	printf("========================================================================================================================\n");
+	printf("|  Nomor  |        Nama       |  Kode Buku  |			Judul Buku 			|  Tanggal Peminjaman  |\n");
+	/* Buka file untuk dibaca isinya */
+	if ((dtpinjam=fopen("datapinjam.dat", "rb")) == NULL )
+	{
+		printf("File tidak dapat dibuka!\r\n");
+		exit(1);
+	}
+	printf("\n");
+	/* Ambil isi file ngenggunakan fungsi fread(), lalu tampilkan ke layar */
+	while ((fread(&bukupj, sizeof(bukupj), JUM_BLOK, dtpinjam)) == JUM_BLOK )
+	printf(" %2d		 %-16s   %2d				%-26s		%d - %d - %4d	", bukupj.nomor, bukupj.nama, bukupj.kode, bukupj.judul, bukupj.tgl_pinjam.bln, bukupj.tgl_pinjam.tgl, bukupj.tgl_pinjam.thn);
+	fclose(dtpinjam);
+	printf("\n\n\n========================================================================================================================\n\n");
+}
+
+//===================================================================  Function untuk mengecek kode buku  =======================================================================
+int checkKode(data_buku buku, int id)
+{
+	FILE *dtbuku;
+	int c = 1;
+	if(c == 1)
+	{
+		dtbuku = fopen("daftarbuku.dat", "rb");
+		while(fread(&buku, sizeof(buku), 1, dtbuku))
+		{
+			if(id == buku.kode)
+			{
+				fclose(dtbuku);
+				return 1;
+			}
+		}
+	}
+	else
+	{
+		c = 0;
+		fclose(dtbuku);
+		return 0;
+	}
+}
+
+//===================================================================  Function untuk mengecek nomor buku  ======================================================================
+int checkNomor(buku_pinjam bukupj, int id)
+{
+	FILE *dtpinjam;
+	int c = 1;
+	if(c == 1){
+		dtpinjam = fopen("datapinjam.dat", "rb");
+		while(fread(&bukupj, sizeof(bukupj), 1, dtpinjam))
+		{
+			if(id == bukupj.nomor)
+			{
+				fclose(dtpinjam);
+				return 1;
+			}
+		}
+	}
+	else
+	{
+		c = 0;
+		fclose(dtpinjam);
+		return 0;
+	}
+}
+
+//=================================================================  Prosedur untuk menghapus data peminjaman  ==================================================================
+void hapusbuku(buku_pinjam bukupj, int r){
+	FILE *tmp;
+	int s;
+	
+		if (checkNomor(bukupj, r) == 0){
+			printf("\n Data peminjaman %d tidak ditemukan\n\n",r);
+		}
+		else{
+			dtpinjam = fopen("datapinjam.dat","rb");
+			tmp = fopen("Temp_Data.txt","wb");
+			while (fread(&bukupj, sizeof(bukupj), 1, dtpinjam)){
+				s = bukupj.nomor;
+				if ( s != r){
+					//Menyalin data file yang tidak ingin dihapus
+					fwrite(&bukupj, sizeof(bukupj), 1, tmp);
+				}
+			}
+			fclose(dtpinjam);
+			fclose(tmp);
+			dtpinjam = fopen("datapinjam.dat","wb");
+			tmp = fopen("Temp_Data.txt","rb");
+			while(fread(&bukupj,sizeof(bukupj),1,tmp)){
+				fwrite(&bukupj,sizeof(bukupj),1,dtpinjam);
+			}
+			fclose(dtpinjam);
+			fclose(tmp);
+		}
+	}
+
+void hapusdtbuku(data_buku buku, int r)
+{
+	FILE *tmp;
+	int s;
+	if (checkKode(buku, r) == 0)
+	{
+		printf("\n Data peminjaman %d tidak ditemukan\n\n", r);
+	}
+	else
+	{
+		dtpinjam = fopen("daftarbuku.dat", "rb");
+		tmp = fopen("Temp_Data.txt", "wb");
+		while (fread(&buku, sizeof(buku), 1, dtbuku))
+		{
+			s = buku.kode;
+			if (s != r)
+			{
+				//Menyalin data file yang tidak ingin dihapus
+				fwrite(&buku, sizeof(buku), 1, tmp);
+			}
+		}
+		fclose(dtbuku);
+		fclose(tmp);
+		dtbuku = fopen("daftarbuku.dat", "wb");
+		tmp = fopen("Temp_Data.txt", "rb");
+		while(fread(&buku, sizeof(buku), 1, tmp))
+		{
+			fwrite(&buku, sizeof(buku), 1, dtbuku);
+		}
+		fclose(dtbuku);
+		fclose(tmp);
+	}
+}
+
+//=================================================================== Prosedur untuk menghapus semua data buku ==================================================================
+void hapusAllData(data_buku buku)
+{
+	char a[20][26];
+	int count = 0;
+	char t[26];
+	int i, j, c;
+	FILE *fpt;
+	dtbuku = fopen("daftarbuku.dat", "rb");
+	fpt = fopen("Temp_Data.txt", "wb");
+	while (fread(&buku, sizeof(buku), 1, dtbuku))
+	{
+		strcpy(a[count],buku.judul);
+		count++;
+	}
+	c = count;
+	for (i = 0; i < count - 1; i++)
+	{
+		for (j = i + 1; j < count; j++)
+		{
+			if (a[i] > a[j])
+			{
+				strcpy(t, a[i]);
+				strcpy(a[i], a[j]);
+				strcpy(a[j], t);
+			}
+		}
+	}
+	count = c;
+	for (i = 0; i < count; i++)
+	{
+		rewind(dtbuku);
+		while (fread(&buku, sizeof(buku), 1, dtbuku))
+		{
+			if (a[i] == buku.judul)
+			{
+				fwrite(&buku, sizeof(buku), 1, fpt);
+			}
+		}
+	}
+	fclose(dtbuku);
+  	fclose(fpt);
+  	dtbuku = fopen("daftarbuku.dat", "wb");
+  	fpt = fopen("Temp_Data.txt", "rb");
+  	while (fread(&buku,sizeof(buku), 1, fpt))
+  	{
+  		fwrite(&buku,sizeof(buku), 1, dtbuku);
+	}
+	fclose(dtbuku);
+	fclose(fpt);
+	Tampil_File();
+//	menudaftar();
+}
