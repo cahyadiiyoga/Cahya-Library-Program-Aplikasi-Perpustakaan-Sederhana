@@ -3,32 +3,27 @@
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
+#include "fituradm.h"
 
 //Membersihkan Menu Sebelumnya
 #define WINDOWS 1
 
 void console_clear_screen() {
-  #ifdef WINDOWS
-  system("cls");
-  #endif
-  #ifdef LINUX
-  system("clear");
-  #endif
+	#ifdef WINDOWS
+	system("cls");
+	#endif
+	#ifdef LINUX
+	system("clear");
+	#endif
 }
 
 //=============================================================================  Fitur Login  =====================================================================================
-struct login
-{
-    char username[20];
-    char password[20];
-};
-
 void registration()
 {
     FILE *log;
-    log=fopen("login.txt","w");
+    log = fopen("login.txt","w");
     struct login l;
-    system("cls");
+    console_clear_screen();
     printf("\n\n\n\n\n\n\n\n\t\t\t\t==============================================\n");
 	printf("\t\t\t\t\t\t  [REGISTRASI]\n");
 	printf("\t\t\t\t==============================================\n\n");
@@ -42,7 +37,7 @@ void registration()
     
     printf("\n\t\t\t\t\tRegistrasi selesai, silakan login! \n");
     getch();
-    system("cls");
+    console_clear_screen();
     login();
 }
 
@@ -51,9 +46,9 @@ void login()
     char username[20];
     char password[20];
     FILE *log;
-    log=fopen("login.txt","r");
+    log = fopen("login.txt","r");
     struct login l;
-    system("cls");
+    console_clear_screen();
     printf("\n\n\n\n\n\n\n\n\t\t\t\t==============================================\n");
 	printf("\t\t\t\t\t\t   [LOGIN]\n");
 	printf("\t\t\t\t==============================================\n\n");
@@ -75,14 +70,14 @@ void login()
     }
     fclose(log);
     getch();
-    system("cls");
+    console_clear_screen();
     menuadm();
 }
 
 //=============================================================================  Menu Admin  =====================================================================================
 void menuadm()
 {
-	system("cls");
+	console_clear_screen();
 	int pil = 0;
 	printf("\n\n\n\n\n\n\n\n\t\t\t\t==============================================\n");
 	printf("\t\t\t\t\t\t[Menu Admin]\n");
@@ -106,9 +101,9 @@ void menuadm()
 //		case 3 : { Input_Buku();
 //		break;
 //		}
-//		case 4 : { menuhapus();
-//			break;
-//		}
+		case 4 : { menuhapus();
+			break;
+		}
 		case 5 : { main();
 			break;
 		}
@@ -123,7 +118,7 @@ void menuadm()
 //===================================================================  Menu Pinjam dan Kembalikan Buku  ==========================================================================
 void menupinjam()
 {
-	system("cls");
+	console_clear_screen();
 	int pil = 0;
 //	Tampil_File();
 //	sortKode(buku);
@@ -137,20 +132,76 @@ void menupinjam()
 	printf("\n\t Pilihan	: ");
 	scanf("%d", &pil); fflush(stdin);
 	switch (pil)
+	{
+//		case 1 : { 	pinjam();
+//	}
+			break;
+		case 2 : { menuadm();
+		}
+		default :{
+			printf("\n\t\t\t\t\t Pilihan tidak ditemukan!");
+			getch();
+			console_clear_screen();
+			menupinjam();
+			break;
+		}
+	}
+}
+
+//===================================================================  Menu dan fitur hapus buku  ================================================================================
+void menuhapus(){
+	int pil = 0;
+//	Tampil_File();
+	printf("\n========================================================================================================================\n");
+	printf("|                                                 [Menu Hapus]                                  	               |\n");
+	printf("========================================================================================================================\n");
+	printf("\t 1. Hapus 1 data\n");
+	printf("\t 2. Hapus semua data \n");
+	printf("\t 3. Kembali ke menu sebelumnya \n");
+	printf("\n\t Pilihan	: ");
+	scanf("%d", &pil); fflush(stdin);
+	switch (pil)
 		{
-//			case 1 : { 	pinjam();
-//		}
+			case 1 : { 	hapus1();
+		}
 				break;
-			case 2 : { menuadm();
+			case 2 : { hapus2();
+			}
+			case 3 : { menuadm();
+				break;
 			}
 			default :{
 				printf("\n\t\t\t\t\t Pilihan tidak ditemukan!");
 				getch();
-				system("cls");
-				menupinjam();
+				console_clear_screen();
+				menuhapus();
 				break;
 			}
 		}
 }
 
+void hapus1(){
+	int pil;
+	printf("Masukkan kode buku yang akan di hapus : ");
+	scanf("%d",&pil); fflush(stdin);
+	printf("Apakah anda yakin? (Y/T)");
+	jawab = toupper(getche());			/* Baca jawaban dari keyboard */
+	if (jawab == 'Y')
+	{	
+//		hapusdtbuku(buku, pil);
+		menuhapus();
+	}
+	menuhapus();
+}
 
+void hapus2(){
+	int pil;
+	char jawab;
+	printf("Apakah anda yakin? (Y/T)");
+	jawab = toupper(getche());			/* Baca jawaban dari keyboard */
+	if (jawab == 'Y')
+	{	
+//		hapusAllData(buku);
+	}
+	menuhapus();
+}
