@@ -5,8 +5,9 @@
 	
 int main()
 {
+	console_clear_screen();
 	int pil = 0; 				//variabel
-	for (;;) 				    //pengulangan
+	for (;;) 				   //pengulangan
 	{
 		printf("\n\n\n\n\n\n\n\n\t\t\t\t==============================================\n");
 		printf("\t\t\t\t\t  [WELCOME TO CAHYA LIBRARY]\n");
@@ -35,5 +36,3 @@ int main()
 		}
 	}	
 }
-
-

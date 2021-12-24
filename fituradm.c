@@ -493,7 +493,7 @@ void kembalikan()
 			dtpinjam = fopen("datapinjam.dat", "rb");
 			hapusbuku(bukupj, pil);
 			fclose(dtbuku);
-//			struk(kembali, nama, judul, tglpinjam, blnpinjam, thnpinjam);
+			struk(kembali, nama, judul, tglpinjam, blnpinjam, thnpinjam);
 			menuadm();
 		}
 		else if (uang > denda)
@@ -504,7 +504,7 @@ void kembalikan()
 			dtpinjam = fopen("datapinjam.dat", "rb");
 			hapusbuku(bukupj, pil);
 			fclose(dtbuku);
-//			struk(kembali, nama, judul, tglpinjam, blnpinjam, thnpinjam);
+			struk(kembali, nama, judul, tglpinjam, blnpinjam, thnpinjam);
 			menuadm();
 		} 
 		else if (uang == denda)
@@ -514,7 +514,7 @@ void kembalikan()
 			dtpinjam = fopen("datapinjam.dat", "rb");
 			hapusbuku(bukupj, pil);
 			fclose(dtbuku);
-//			struk(kembali, nama, judul, tglpinjam, blnpinjam, thnpinjam);
+			struk(kembali, nama, judul, tglpinjam, blnpinjam, thnpinjam);
 			menuadm();
 		}
 	}
@@ -525,7 +525,23 @@ void kembalikan()
 		dtpinjam = fopen("datapinjam.dat", "rb");
 		hapusbuku(bukupj, pil);
 		fclose(dtbuku);
-//		struk(kembali, nama, judul, tglpinjam, blnpinjam, thnpinjam);
+		struk(kembali, nama, judul, tglpinjam, blnpinjam, thnpinjam);
 		menuadm();
 	}
+}
+
+//=======================================================================  Prosedur pemanggilan struk  =============================================================================
+void struk(data_tanggal tglk, char a[26], char b[26], int c, int d, int e){
+	system("cls");
+	printf("\nNama Penyewa Buku    : %s\n\n", a);
+   
+   
+    printf("-----------------------------------------------------------------------------------\n");
+    printf("| TANGGAL PINJAM |   TANGGAL KEMBALI   |     NAMA     |  	JUDUL BUKU	  |\n");
+    printf("-----------------------------------------------------------------------------------\n");
+	
+    printf("   %d - %d - %d     %d - %d - %d     %13s   	%-20s    \n\n",d,c,e,tglk.bln,tglk.tgl,tglk.thn,a,b);   
+   	printf("Terima Kasih Telah Mengembalikan");
+	getch();
+	kembalikanbuku();
 }
