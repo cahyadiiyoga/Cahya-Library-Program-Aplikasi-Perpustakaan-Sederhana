@@ -279,3 +279,38 @@ void hapusAllData(data_buku buku)
 	Tampil_File();
 //	menudaftar();
 }
+
+//=================================================================  Prosedur untuk menampilkan panduan aplikasi  ===============================================================
+void panduan(){
+	FILE *dtpanduan;
+	system("cls");
+	printf("\n========================================================================================================================\n");
+	printf("|                                             [BUKU PANDUAN]                                                           |\n");
+	printf("========================================================================================================================\n\n");
+	char string[1000];
+	/* pada output, tuliskan sebuah nama file yang akan dibaca, lengkap dengan ekstensinya. */
+	
+	/* buka file untuk dibaca */
+	if ((dtpanduan=fopen("panduan.txt", "rt")) == NULL)
+	{
+		printf("File tidak dapat dibuka!\r\n");
+		exit(1);
+	}
+	
+	/* Baca string dari file selama masih ada */
+	while ((fgets(string, 1000, dtpanduan)) != NULL)
+	/* Tampilkan string ke layar*/
+	printf("%s\r", string);
+	
+	fclose(dtpanduan);				/* tutup file setiap selesai proses terhadap file*/
+	printf("\r\n\n\tKembali ke halaman sebelumnya (Y)"); fflush(stdin);
+	jawab = toupper(getche());		/* Baca jawaban dari keyboard */
+	if(jawab == 'Y'){
+			system("cls");
+			main();
+		}
+		system("cls");
+		main();
+
+}
+
