@@ -1,0 +1,11 @@
+		Dengan dibentuknya program aplikasi perpustakaan ini, diharapkan admin atau user terasa dimudahkan 
+		dalam melakukan aktivitas pada perpustakaan. Di halaman utama terdapat 5 pilihan menu, yaitu 
+		registrasi, masuk sebagai admin (login), daftar buku, panduan aplikasi, dan selesai. 
+		Jika admin atau user belum memiliki akun, silakan melakukan registrasi terlebih dahulu. 
+		Tetapi jika sudah memiliki akun, bisa langsung memilih menu masuk sebagai admin (login). 
+		Jika ingin melihat daftar buku dapat memilih menu daftar buku.
+		Pada menu masuk sebagai admin (login) ini admin atau user dapat melakukan peminjaman buku, 
+		pengembalian buku, input buku, dan menghapus data input buku.
+		INGAT SETIAP KETERLAMBATAN AKAN DIKENAKAN DENDA!
+
+		Terima kasih.
