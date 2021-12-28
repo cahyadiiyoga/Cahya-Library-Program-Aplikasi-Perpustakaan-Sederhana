@@ -27,7 +27,7 @@ int main()
 				break;
 			}
 			case 3 : { 	Tampil_File();
-			//	menudaftar();
+				menudaftar();
 				getch();
 				break;
 			}	

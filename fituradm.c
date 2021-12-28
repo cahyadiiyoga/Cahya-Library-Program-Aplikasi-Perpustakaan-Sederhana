@@ -545,3 +545,53 @@ void struk(data_tanggal tglk, char a[26], char b[26], int c, int d, int e){
 	getch();
 	kembalikanbuku();
 }
+
+//======================================================================  Menu Daftar Buku  ========================================================================================
+
+void menudaftar()
+{
+	int pil = 0;
+	printf("\n========================================================================================================================\n");
+	printf("|             					 [Menu Daftar Buku] 					          |\n");
+	printf("========================================================================================================================\n\n");
+	printf("\t 1. Urutkan\n");
+	printf("\t 2. Kembali ke menu sebelumnya \n");
+	printf("\n\t Pilihan	: ");
+	scanf("%d", &pil); fflush(stdin);
+	switch (pil)
+		{
+			case 1 : { 	menusort();
+
+				break;
+			default : { main();
+			}
+		}
+	}
+}
+
+//====================================================================  Menu Sorting Buku  =========================================================================================
+void menusort()
+{
+	int pil = 0;
+	printf("\n\t 1. Kode Buku \n");
+	printf("\t 2. Tahun Terbit Buku \n");
+	printf("\t 3. Kembali ke menu sebelumnya \n");
+	printf("\n\t Urutkan berdasarkan	: ");
+	scanf("%d", &pil); fflush(stdin);
+	switch (pil)
+		{
+			case 1 : { 	sortKode(buku);
+						menudaftar();
+				break;
+			}
+			case 2 : { sortTahun(buku);
+				break;
+			}
+			case 3 : { menudaftar();
+				break;
+			}
+			default : { menusort();
+			}
+		}
+}
+

@@ -40,4 +40,7 @@ void hapusAllData(data_buku buku);
 // Prosedur untuk mengambil tanggal sekarang
 void Tanggal();
 
+// Prosedur Sorting Buku
+void sortTahun(data_buku buku);
+void sortKode(data_buku buku);
 #endif

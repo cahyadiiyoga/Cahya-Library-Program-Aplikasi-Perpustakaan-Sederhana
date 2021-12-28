@@ -277,11 +277,12 @@ void hapusAllData(data_buku buku)
 	fclose(dtbuku);
 	fclose(fpt);
 	Tampil_File();
-//	menudaftar();
+	menudaftar();
 }
 
 //=================================================================  Prosedur untuk menampilkan panduan aplikasi  ===============================================================
-void panduan(){
+void panduan()
+{
 	FILE *dtpanduan;
 	system("cls");
 	printf("\n========================================================================================================================\n");
@@ -314,3 +315,93 @@ void panduan(){
 
 }
 
+//=================================================================== Prosedur Sorting Buku berdasarkan Tahun ===================================================================
+void sortTahun(data_buku buku)
+{
+	int a[20];
+	int count = 0;
+	int i,j,t,c;
+	FILE *fpt;
+	dtbuku = fopen("daftarbuku.dat","rb");
+	fpt = fopen("Temp_Data.txt","wb");
+	while (fread(&buku, sizeof(buku),1,dtbuku)){
+		a[count] = buku.tahun;
+		count++;
+	}
+	
+	c = count;
+	for (i = 0; i<count -1;i++){
+		for (j = i + 1; j<count; j++){
+			if (a[i]>a[j]){
+				t = a[i];
+				a[i] = a[j];
+				a[j] = t;
+			}
+		}
+	}
+	count = c;
+	for (i = 0; i<count; i++){
+		rewind(dtbuku);
+		while (fread(&buku, sizeof(buku),1,dtbuku)){
+			if (a[i]==buku.tahun){
+				fwrite(&buku, sizeof(buku),1,fpt);
+			}
+		}
+	}
+	fclose(dtbuku);
+  	fclose(fpt);
+  		dtbuku = fopen("daftarbuku.dat","wb");
+  		fpt = fopen("Temp_Data.txt","rb");
+  		while (fread(&buku,sizeof(buku),1, fpt)){
+  			fwrite(&buku,sizeof(buku),1,dtbuku);
+		  }
+			fclose(dtbuku);
+			fclose(fpt);
+	Tampil_File();
+	menudaftar();
+}
+
+//======================================================================= Prosedur Sorting Buku berdasarkan Kode ================================================================
+void sortKode(data_buku buku)
+{
+	int a[20];
+	int count = 0;
+	int i,j,t,c;
+	FILE *fpt;
+	dtbuku = fopen("daftarbuku.dat","rb");
+	fpt = fopen("Temp_Data.txt","wb");
+	while (fread(&buku, sizeof(buku),1,dtbuku)){
+		a[count] = buku.kode;
+		count++;
+	}
+	
+	c = count;
+	for (i = 0; i<count -1;i++){
+		for (j = i + 1; j<count; j++){
+			if (a[i]>a[j]){
+				t = a[i];
+				a[i] = a[j];
+				a[j] = t;
+			}
+		}
+	}
+	count = c;
+	for (i = 0; i<count; i++){
+		rewind(dtbuku);
+		while (fread(&buku, sizeof(buku),1,dtbuku)){
+			if (a[i]==buku.kode){
+				fwrite(&buku, sizeof(buku),1,fpt);
+			}
+		}
+	}
+	fclose(dtbuku);
+  	fclose(fpt);
+  		dtbuku = fopen("daftarbuku.dat","wb");
+  		fpt = fopen("Temp_Data.txt","rb");
+  		while (fread(&buku,sizeof(buku),1, fpt)){
+  			fwrite(&buku,sizeof(buku),1,dtbuku);
+		  }
+			fclose(dtbuku);
+			fclose(fpt);
+	Tampil_File();
+}
