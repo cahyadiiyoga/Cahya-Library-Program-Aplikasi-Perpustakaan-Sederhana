@@ -97,8 +97,9 @@ void menuadm()
 	printf("\t\t\t\t 2. Kembalikan Buku \n");
 	printf("\t\t\t\t 3. Input Buku \n");
 	printf("\t\t\t\t 4. Hapus Data Buku \n");
-	printf("\t\t\t\t 5. Kembali ke menu sebelumnya \n");
-	printf("\t\t\t\t 6. Selesai \n");
+	printf("\t\t\t\t 5. History Peminjaman\n");
+	printf("\t\t\t\t 6. Kembali ke menu sebelumnya \n");
+	printf("\t\t\t\t 7. Selesai \n");
 	printf("\n\t\t\t\t Pilihan	: ");
 	scanf("%d",  &pil); fflush(stdin);
 	switch (pil)
@@ -115,10 +116,13 @@ void menuadm()
 		case 4 : { menuhapus();
 			break;
 		}
-		case 5 : { main();
+		case 5 : { daftarpj();
 			break;
 		}
-		case 6 : { exit(1);
+		case 6 : { main();
+			break;
+		}
+		case 7 : { exit(1);
 			break;
 		}
 		default :{ menuadm();
@@ -532,18 +536,46 @@ void kembalikan()
 
 //=======================================================================  Prosedur pemanggilan struk  =============================================================================
 void struk(data_tanggal tglk, char a[26], char b[26], int c, int d, int e){
-	system("cls");
+	console_clear_screen();
+	char buffer[100];
+	if ((dtstruk=fopen("datastruk.dat",  "ab")) == NULL ){
+		printf("File tidak dapat dibuat!\r\n");
+		main();
+	}   
 	printf("\nNama Penyewa Buku    : %s\n\n", a);
-   
-   
     printf("-----------------------------------------------------------------------------------\n");
     printf("| TANGGAL PINJAM |   TANGGAL KEMBALI   |     NAMA     |  	JUDUL BUKU	  |\n");
     printf("-----------------------------------------------------------------------------------\n");
 	
-    printf("   %d - %d - %d     %d - %d - %d     %13s   	%-20s    \n\n",d,c,e,tglk.bln,tglk.tgl,tglk.thn,a,b);   
+	sprintf(buffer, "   %d - %d - %d     %d - %d - %d     %13s   	%-20s    \n\n",d,c,e,tglk.bln,tglk.tgl,tglk.thn,a,b);
+	fputs(buffer, dtstruk);
+	fclose(dtstruk);
+    printf(buffer);   
    	printf("Terima Kasih Telah Mengembalikan");
+   	
+   	
 	getch();
 	kembalikanbuku();
+}
+
+void daftarpj()
+{
+	console_clear_screen();
+	char buffer[100];
+	if ((dtstruk=fopen("datastruk.dat",  "rb")) == NULL ){
+		printf("File tidak dapat dibuat!\r\n");
+		main();
+	}   
+	
+	printf("-----------------------------------------------------------------------------------\n");
+    printf("| TANGGAL PINJAM |   TANGGAL KEMBALI   |     NAMA     |  	JUDUL BUKU	  |\n");
+    printf("-----------------------------------------------------------------------------------\n");
+    
+    while(fgets(buffer, sizeof(buffer), dtstruk)){
+        printf("%s", buffer);
+    }
+    getch();
+    menuadm();
 }
 
 //======================================================================  Menu Daftar Buku  ========================================================================================

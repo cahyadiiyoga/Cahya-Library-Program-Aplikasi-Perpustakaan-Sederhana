@@ -9,7 +9,7 @@
 
 //======================================================================= Prosedur Menginput Buku  =============================================================================
 void Input_Buku(){
-	system("cls");
+	console_clear_screen();
 	printf("\n========================================================================================================================\n");
 	printf("|                                             	[Input Buku]     	     	                                     |\n");
 	printf("========================================================================================================================\n");
@@ -284,7 +284,7 @@ void hapusAllData(data_buku buku)
 void panduan()
 {
 	FILE *dtpanduan;
-	system("cls");
+	console_clear_screen();
 	printf("\n========================================================================================================================\n");
 	printf("|                                             [BUKU PANDUAN]                                                           |\n");
 	printf("========================================================================================================================\n\n");
@@ -307,10 +307,10 @@ void panduan()
 	printf("\r\n\n\tKembali ke halaman sebelumnya (Y)"); fflush(stdin);
 	jawab = toupper(getche());		/* Baca jawaban dari keyboard */
 	if(jawab == 'Y'){
-			system("cls");
+			console_clear_screen();
 			main();
 		}
-		system("cls");
+		console_clear_screen();
 		main();
 
 }
